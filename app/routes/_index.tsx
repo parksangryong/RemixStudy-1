@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 
 export const meta = () => {
   return [
@@ -21,35 +21,9 @@ export default function Index() {
 
   return (
     <>
-      <a href="/posts">Posts via a tag</a>
-      <br />
-      <Link to="/posts" reloadDocument>
-        Posts via Link component
-      </Link>
-      <br />
-      <Link
-        to={{
-          pathname: "/posts",
-          search: "?query=string",
-          hash: "#hash",
-        }}
-      >
-        Posts
-      </Link>
-
-      <br />
-
-      <Link to="/posts" prefetch="intent">
-        Posts
-      </Link>
-
-      <br />
-
-      <Link to="/posts">Posts</Link>
-
-      <br />
-
-      <button onClick={handleClick}>Submit</button>
+      <button type="button" className="btn btn-primary" onClick={handleClick}>
+        Submit
+      </button>
     </>
   );
 }

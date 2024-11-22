@@ -52,15 +52,15 @@ export default function Posts() {
   return (
     <>
       {posts.map((post) => (
-        <div key={post.id}>
-          <h2>
+        <div key={post.id} className="blog-post">
+          <h2 className="blog-post-title">
             <a href={post.url}>{post.title}</a>
           </h2>
-          <p>
+          <p className="blog-post-content">
             {post.content.split(" ").slice(0, 20).join(" ")}
             {post.content.split(" ").length > 20 && "..."}
           </p>
-          <p>
+          <p className="blog-post-date">
             {new Date(post.date).toLocaleDateString("kr", {
               day: "2-digit",
               month: "2-digit",
