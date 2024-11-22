@@ -4,10 +4,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  NavLink,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 
 // import "./tailwind.css";
+import "./style.css";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -28,15 +30,46 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
         <Meta />
         <Links />
       </head>
       <body>
+        <Nav />
         {children}
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
+  );
+}
+
+export function Nav() {
+  return (
+    <nav className="navigation">
+      <ul>
+        <li>
+          <NavLink className="nav-link" to="/">
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink className="nav-link" to="/posts">
+            Posts
+          </NavLink>
+        </li>
+        <li>
+          <NavLink className="nav-link" to="/about">
+            About
+          </NavLink>
+        </li>
+        <li>
+          <NavLink className="nav-link" to="/demo">
+            Demo
+          </NavLink>
+        </li>
+      </ul>
+    </nav>
   );
 }
 
