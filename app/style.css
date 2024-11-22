@@ -1,0 +1,90 @@
+
+@font-face {
+  font-family: 'Pacifico';
+  font-style: bold;
+  font-weight: 700;
+  src: 'https://fonts.googleapis.com/css2?family=Pacifico&display=swap'
+}
+
+
+@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    src: 'https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap?url'
+}
+
+.brand {
+    font-family: 'Pacifico', cursive;
+}
+
+body {
+    background-color: #ffb6c1;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #555;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.blog-post {
+    text-align: left;
+    margin-top: 60px;
+    margin-bottom: 40px;
+    color: #444;
+}
+
+.blog-post-title {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.blog-post-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-post-content {
+    font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.blog-post-date {
+  font-size: 16px;
+}
+a {
+    text-decoration: none; /* Remove default underline */
+    color: inherit; /* Inherit color from parent */
+    transition: color 0.3s ease, text-decoration 0.3s ease; /* Transition effect */
+}
+
+a:hover {
+    text-decoration: underline; /* Add underline on hover */
+    color: rgb(235, 108, 106); /* Change color to blue on hover */
+}
+
+/* Navigation Styles */
+  
+.navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .navigation li {
+    margin: 0 10px;
+  }
+  
+  .navigation a {
+    color: #555;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navigation i {
+    margin-right: 5px;
+  }
