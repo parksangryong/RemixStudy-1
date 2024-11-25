@@ -1,6 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
-import postData from "../../postData.json";
-import PostsList from "~/components/PostsList";
+import { Outlet } from "@remix-run/react";
 
 export const meta = () => {
   return [
@@ -9,12 +7,10 @@ export const meta = () => {
   ];
 };
 
-export async function loader() {
-  return postData;
-}
-
 export default function Posts() {
-  const posts = useLoaderData<typeof loader>();
-
-  return <PostsList posts={posts} />;
+  return (
+    <>
+      <Outlet />
+    </>
+  );
 }
