@@ -1,26 +1,37 @@
 import { NavLink } from "@remix-run/react";
 
 export default function Navbar() {
+  const style = ({
+    isActive,
+    isPending,
+  }: {
+    isActive: boolean;
+    isPending: boolean;
+  }) => ({
+    fontWeight: isPending ? "bold" : "normal",
+    color: isActive ? "red" : "black",
+  });
+
   return (
-    <nav className="navigation">
+    <nav>
       <ul>
         <li>
-          <NavLink className="nav-link " to="/">
+          <NavLink to="/" style={style}>
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink className="nav-link" to="/posts">
+          <NavLink to="/posts" style={style}>
             Posts
           </NavLink>
         </li>
         <li>
-          <NavLink className="nav-link" to="/about">
+          <NavLink to="/about" style={style}>
             About
           </NavLink>
         </li>
         <li>
-          <NavLink className="nav-link" to="/demo">
+          <NavLink to="/demo" style={style}>
             Demo
           </NavLink>
         </li>

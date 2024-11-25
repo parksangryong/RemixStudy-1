@@ -20,10 +20,10 @@ export default function Index() {
   };
 
   return (
-    <>
-      <button type="button" className="btn btn-primary" onClick={handleClick}>
+    <div className="btn">
+      <button type="button" onClick={handleClick}>
         Submit
       </button>
-    </>
+    </div>
   );
 }

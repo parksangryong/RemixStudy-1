@@ -12,15 +12,15 @@ export default function PostsList({ posts }: { posts: PostProps[] }) {
   return (
     <>
       {posts.map((post) => (
-        <div key={post.id} className="blog-post">
-          <h2 className="blog-post-title">
+        <div key={post.id}>
+          <h2>
             <a href={`/posts/${post.slug}`}>{post.title}</a>
           </h2>
-          <p className="blog-post-content">
+          <p>
             {post.content.split(" ").slice(0, 20).join(" ")}
             {post.content.split(" ").length > 20 && "..."}
           </p>
-          <p className="blog-post-date">
+          <p>
             {new Date(post.createdAt).toLocaleDateString("kr", {
               day: "2-digit",
               month: "2-digit",
