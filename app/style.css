@@ -37,6 +37,7 @@ body {
 .blog-post-title {
   font-size: 36px;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .blog-post-title a {
