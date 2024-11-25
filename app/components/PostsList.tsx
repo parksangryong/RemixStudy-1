@@ -1,9 +1,11 @@
 interface PostProps {
   id: number;
+  userId: number;
+  author: string;
   title: string;
-  url: string;
+  createdAt: string;
   content: string;
-  date: string;
+  slug: string;
 }
 
 export default function PostsList({ posts }: { posts: PostProps[] }) {
@@ -12,14 +14,14 @@ export default function PostsList({ posts }: { posts: PostProps[] }) {
       {posts.map((post) => (
         <div key={post.id} className="blog-post">
           <h2 className="blog-post-title">
-            <a href={post.url}>{post.title}</a>
+            <a href={`/posts/${post.slug}`}>{post.title}</a>
           </h2>
           <p className="blog-post-content">
             {post.content.split(" ").slice(0, 20).join(" ")}
             {post.content.split(" ").length > 20 && "..."}
           </p>
           <p className="blog-post-date">
-            {new Date(post.date).toLocaleDateString("kr", {
+            {new Date(post.createdAt).toLocaleDateString("kr", {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",
