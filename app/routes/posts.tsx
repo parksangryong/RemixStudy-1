@@ -1,4 +1,5 @@
 import { Outlet } from "@remix-run/react";
+import postData from "../../postData.json";
 
 export const meta = () => {
   return [
@@ -6,6 +7,10 @@ export const meta = () => {
     { name: "description", content: "Welcome to Posts!" },
   ];
 };
+
+export async function loader() {
+  return postData;
+}
 
 export default function Posts() {
   return (
