@@ -1,4 +1,5 @@
 import {
+  Form,
   json,
   Links,
   Meta,
@@ -50,7 +51,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <Brand />
         </header>
         <main className="container">{children}</main>
-        <footer></footer>
+        <footer>
+          <h1>/Root route</h1>
+
+          <Form method="POST">
+            <p>
+              <input type="text" name="slug" />
+            </p>
+            <button type="submit">Create</button>
+          </Form>
+        </footer>
         <ScrollRestoration />
         <Scripts />
       </body>

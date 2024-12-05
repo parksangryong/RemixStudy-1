@@ -2,21 +2,21 @@ import { Form, Outlet, json } from "@remix-run/react";
 import type { ActionFunctionArgs } from "@remix-run/node";
 
 export async function loader() {
-  console.log("/demo router loader called");
+  console.log("/demo/category router loader called");
   return json({ success: true });
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  console.log("/demo router action called");
+  console.log("/demo/category router action called");
   console.log(await request.formData());
   return json({ success: true });
 }
 
-export default function Demo() {
+export default function DemoCategory() {
   return (
     <>
       <Outlet />
-      <h1>/demo route</h1>
+      <h1>/demo/category route</h1>
 
       <Form method="POST">
         <p>
@@ -27,9 +27,3 @@ export default function Demo() {
     </>
   );
 }
-
-// function fakeDelay(time: number) {
-//   return new Promise((resolve) => {
-//     setTimeout(resolve, time); // 3 seconds delay
-//   });
-// }
