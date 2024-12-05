@@ -1,4 +1,5 @@
 import {
+  json,
   Links,
   Meta,
   Outlet,
@@ -23,6 +24,16 @@ export const links: LinksFunction = () => [
   // { rel: "stylesheet", href: tailwind },
   { rel: "stylesheet", href: styles },
 ];
+
+export const loader = () => {
+  console.log("root route loader called");
+  return json({ success: true });
+};
+
+export const action = () => {
+  console.log("root route action called");
+  return json({ success: true });
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
