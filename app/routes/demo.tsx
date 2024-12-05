@@ -1,17 +1,58 @@
-import { json } from "@remix-run/node";
+import { ActionFunctionArgs, json } from "@remix-run/node";
+import { Form, useActionData } from "@remix-run/react";
+import { useState } from "react";
 
-export async function loader() {
-  const data = { key: "value", date: new Date() };
-  // const body = JSON.stringify(data);
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  console.log(formData);
 
-  return json(data, { status: 200 });
-  // return new Response(body, {
-  //   headers: {
-  //     "Content-Type": "application/json; charset=utf-8",
-  //   },
-  // });
+  await fakeDelay(1500);
+
+  return json({ success: true });
 }
 
 export default function Demo() {
-  return <h1>Demo page</h1>;
+  const data = useActionData<typeof action>();
+  console.log("actionData: ", data?.success);
+
+  const [count, setCount] = useState(0);
+
+  const ButtonBox = () => (
+    <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+      <button
+        style={{ width: "200px" }}
+        type="submit"
+        onClick={() => setCount(count + 1)}
+      >
+        Increase
+      </button>
+      <button
+        style={{ width: "200px" }}
+        type="submit"
+        onClick={() => setCount(count - 1)}
+      >
+        Decrease
+      </button>
+    </div>
+  );
+
+  return (
+    <>
+      <h2 style={{ color: "green" }}>Count: {count}</h2>
+      <h3>HTML form</h3>
+      <form method="post">
+        <ButtonBox />
+        <button type="submit">Create</button>
+      </form>
+      <h3>Remix Form Component</h3>
+      <Form method="post">
+        <ButtonBox />
+        <button type="submit">Create</button>
+      </Form>
+    </>
+  );
+}
+
+function fakeDelay(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
 }
