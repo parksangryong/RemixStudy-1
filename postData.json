@@ -88,5 +88,14 @@
     "createdAt": "2024-02-15T16:40:00Z",
     "content": "Next.js is a React framework that enables server-side rendering and static site generation, making web applications faster and more scalable.",
     "slug": "nextjs-building"
+  },
+  {
+    "id": 6,
+    "userId": 11,
+    "author": "John Doe",
+    "title": "Hello my name is Hello",
+    "createdAt": "2024-12-05 14:53:38.338+90",
+    "content": "remix is very funny. I love remix!!!",
+    "slug": "Hello"
   }
 ]
