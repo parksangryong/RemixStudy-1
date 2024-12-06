@@ -1,4 +1,6 @@
 import { Link, Outlet } from "@remix-run/react";
+
+// data
 import postData from "../../postData.json";
 
 export const meta = () => {

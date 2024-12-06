@@ -1,4 +1,6 @@
 import { useMatches } from "@remix-run/react";
+
+// components
 import PostsList from "~/components/PostsList";
 
 interface PostProps {

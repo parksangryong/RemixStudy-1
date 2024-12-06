@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import {
   useActionData,
@@ -5,12 +6,18 @@ import {
   useMatches,
   useNavigation,
 } from "@remix-run/react";
-import Comments from "~/components/\bComments";
+
+// components
+import Comments from "~/components/Comments";
 import Post from "~/components/Post";
+
+// fs
 import fs from "fs";
 
+// data
 import commentsData from "../../commentData.json";
-import { useEffect, useState } from "react";
+
+// utils
 import { fakeDelay, formatDate } from "~/utils/helper";
 
 interface PostProps {
