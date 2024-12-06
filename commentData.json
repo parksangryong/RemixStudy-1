@@ -12,7 +12,7 @@
     "userId": 1,
     "postId": 6,
     "postSlug": "korea",
-    "body": "asdfasdfas",
+    "body": "korea Test playing!",
     "createdAt": "2024-12-06 15:07:35.918+90"
   },
   {
@@ -20,7 +20,7 @@
     "userId": 1,
     "postId": 6,
     "postSlug": "korea",
-    "body": "hello!",
+    "body": "hello@@",
     "createdAt": "2024-12-06 15:08:02.113+90"
   },
   {
@@ -28,7 +28,7 @@
     "userId": 1,
     "postId": 6,
     "postSlug": "korea",
-    "body": "hi!",
+    "body": "hi my name is KoreaJoker",
     "createdAt": "2024-12-06 15:10:48.355+90"
   },
   {
@@ -36,7 +36,7 @@
     "userId": 1,
     "postId": 2,
     "postSlug": "redux-understanding",
-    "body": "444",
+    "body": "redux very interesting",
     "createdAt": "2024-12-06 15:15:31.928+90"
   },
   {
@@ -44,7 +44,15 @@
     "userId": 1,
     "postId": 1,
     "postSlug": "react-intro",
-    "body": "563543",
+    "body": "react is very hard.",
     "createdAt": "2024-12-06 15:15:38.802+90"
+  },
+  {
+    "id": 1733465824726,
+    "userId": 1,
+    "postId": 1,
+    "postSlug": "react-intro",
+    "body": "hello my name is React",
+    "createdAt": "2024-12-06 15:17:04.726+90"
   }
 ]

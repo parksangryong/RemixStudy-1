@@ -59,6 +59,7 @@ export default function Comments({
             key={comment.id}
             style={{
               marginBottom: "1rem",
+              marginTop: "1rem",
               borderBottom: "1px solid #333",
               display: "flex",
               justifyContent: "space-between",
