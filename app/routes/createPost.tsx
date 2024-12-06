@@ -11,7 +11,7 @@ import fs from "fs";
 import { countWords, fakeDelay, formatDate } from "~/utils/helper";
 
 // components
-import { Spinner } from "~/components/helper/spinner";
+import Spinner from "~/components/helper/spinner";
 
 type ActionData = {
   errors?: {
