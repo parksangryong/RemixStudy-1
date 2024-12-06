@@ -1,10 +1,16 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
-import { useActionData, useLoaderData, useMatches } from "@remix-run/react";
+import {
+  useActionData,
+  useLoaderData,
+  useMatches,
+  useNavigation,
+} from "@remix-run/react";
 import Comments from "~/components/\bComments";
 import Post from "~/components/Post";
 import fs from "fs";
 
 import commentsData from "../../commentData.json";
+import { useEffect, useState } from "react";
 
 interface PostProps {
   id: number;
@@ -14,6 +20,15 @@ interface PostProps {
   createdAt: string;
   content: string;
   slug: string;
+}
+
+interface CommentProps {
+  id: number;
+  userId: number;
+  postId: number;
+  postSlug: string;
+  body: string;
+  createdAt: string;
 }
 
 type ActionData = {
@@ -32,6 +47,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
+  await delay(2000);
+
   const body = await request.formData();
   const commentBody = body.get("commentBody");
   const postId = body.get("postId");
@@ -62,14 +79,14 @@ export async function action({ request }: ActionFunctionArgs) {
     const filePath =
       "/Users/parksangryong/Desktop/Study/remix/my-remix-app-3/commentData.json";
     fs.writeFileSync(filePath, JSON.stringify(newPosts, null, 2));
+    return json({ success: true });
   } catch (error) {
     console.log("unexpected error:", error);
+    return json({ success: false });
   }
 
   // return json({ success: true });
   // return redirect("/posts");
-
-  return json({ success: true });
 }
 
 export default function SinglePost() {
@@ -80,13 +97,40 @@ export default function SinglePost() {
 
   const actionData = useActionData<ActionData>();
 
+  const navigation = useNavigation();
+
+  const [comments, setComments] = useState<CommentProps[]>(postComments);
+
+  useEffect(() => {
+    if (navigation.formData && navigation.formData.get("commentBody")) {
+      const newComment = {
+        id: Date.now(),
+        userId: 1,
+        postId: parseInt(navigation.formData.get("postId") as string),
+        postSlug: navigation.formData.get("postSlug") as string,
+        body: navigation.formData.get("commentBody") as string,
+        createdAt: formatDate(),
+      };
+      const updatedComments = [...comments, newComment];
+      setComments(updatedComments);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigation.formData]);
+
+  useEffect(() => {
+    if (actionData && !actionData.success) {
+      setComments(postComments);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionData]);
+
   if (!post) return null;
 
   return (
     <>
       <Post post={post} />
       <Comments
-        comments={postComments}
+        comments={comments}
         actionData={actionData}
         postId={post.id}
         postSlug={post.slug}
@@ -110,4 +154,7 @@ function formatDate() {
   const timezoneOffsetMinutes = Math.abs(timezoneOffset % 60);
 
   return `${year}-${month}-${day} ${hour}:${minute}:${second}.${milliseconds}${timezoneOffsetSign}${timezoneOffsetHours}${timezoneOffsetMinutes}`;
+}
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

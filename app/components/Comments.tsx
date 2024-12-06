@@ -1,5 +1,5 @@
 import { Form } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface CommentProps {
   id: number;
@@ -29,17 +29,31 @@ export default function Comments({
   postSlug: string;
 }) {
   const commentRef = useRef<HTMLTextAreaElement>(null);
+  const [savedComment, setSavedComment] = useState<string>("");
 
+  const handleSubmit = () => {
+    // 폼 제출 시점에 현재 입력값 저장
+    setSavedComment(commentRef.current?.value || "");
+    // textarea 비우기
+    if (commentRef.current) {
+      setTimeout(() => {
+        commentRef.current!.value = "";
+      }, 100);
+    }
+  };
   useEffect(() => {
-    if (actionData && actionData.success && commentRef.current) {
-      commentRef.current.value = "";
+    if (actionData && !actionData.success) {
+      if (commentRef.current) {
+        commentRef.current.value = savedComment;
+      }
+      alert("댓글 작성에 실패했습니다. 다시 시도해주세요.");
     }
   }, [actionData]);
 
   return (
     <section>
       <h2>Comments ({comments.length})</h2>
-      <Form method="post">
+      <Form method="post" onSubmit={handleSubmit}>
         {actionData?.errors?.commentBody ? (
           <em style={{ color: "red" }}>{actionData?.errors?.commentBody}</em>
         ) : null}
