@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "postId": 6,
+    "postSlug": "korea",
+    "body": "KoreaTime is very Tired.",
+    "createdAt": "2024-12-06 14:33:01.380+90"
+  },
+  {
+    "id": 1733465255917,
+    "userId": 1,
+    "postId": 6,
+    "postSlug": "korea",
+    "body": "asdfasdfas",
+    "createdAt": "2024-12-06 15:07:35.918+90"
+  },
+  {
+    "id": 1733465282113,
+    "userId": 1,
+    "postId": 6,
+    "postSlug": "korea",
+    "body": "hello!",
+    "createdAt": "2024-12-06 15:08:02.113+90"
+  },
+  {
+    "id": 1733465448355,
+    "userId": 1,
+    "postId": 6,
+    "postSlug": "korea",
+    "body": "hi!",
+    "createdAt": "2024-12-06 15:10:48.355+90"
+  },
+  {
+    "id": 1733465731928,
+    "userId": 1,
+    "postId": 2,
+    "postSlug": "redux-understanding",
+    "body": "444",
+    "createdAt": "2024-12-06 15:15:31.928+90"
+  },
+  {
+    "id": 1733465738802,
+    "userId": 1,
+    "postId": 1,
+    "postSlug": "react-intro",
+    "body": "563543",
+    "createdAt": "2024-12-06 15:15:38.802+90"
+  }
+]

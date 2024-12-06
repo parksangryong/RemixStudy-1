@@ -97,5 +97,32 @@
     "createdAt": "2024-12-05 14:53:38.338+90",
     "content": "remix is very funny. I love remix!!!",
     "slug": "Hello"
+  },
+  {
+    "id": 6,
+    "userId": 131,
+    "author": "John Doe",
+    "title": "classic coding",
+    "createdAt": "2024-12-06 09:43:51.448+90",
+    "content": "I don't really like classical coding, so I like React. Should I say that it's more fun and it's worth learning? Why don't you try it?",
+    "slug": "classic"
+  },
+  {
+    "id": 6,
+    "userId": 1123,
+    "author": "John Doe",
+    "title": "Hello world 4",
+    "createdAt": "2024-12-06 14:26:33.297+90",
+    "content": "Next.js is a React framework that enables server-side rendering and static site generation, making web applications faster and more scalable.",
+    "slug": "hello-world"
+  },
+  {
+    "id": 6,
+    "userId": 16,
+    "author": "John Doe",
+    "title": "Korea Time",
+    "createdAt": "2024-12-06 14:33:01.380+90",
+    "content": "KoreaTime is very Tired.",
+    "slug": "korea"
   }
 ]
