@@ -1,4 +1,8 @@
-import { useLocation } from "@remix-run/react";
+import { json, useLocation } from "@remix-run/react";
+
+export async function loader() {
+  return json({ idx: 1 });
+}
 
 export default function About() {
   const location = useLocation();
