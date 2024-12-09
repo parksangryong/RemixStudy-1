@@ -1,9 +1,15 @@
-import { Form, json, useLoaderData, useNavigation } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { Form, json, useFetcher, useLoaderData } from "@remix-run/react";
 import { fakeDelay } from "~/utils/helper";
 
 let fruits: string[] = [];
 
-export async function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+  const name = url.searchParams.get("name");
+  console.log("id", id);
+  console.log("name", name);
   return fruits;
 }
 
@@ -11,10 +17,11 @@ export async function action({ request }: { request: Request }) {
   const body = await request.formData();
   const _action = body.get("_action");
   if (_action === "create") {
+    await fakeDelay(1000);
     const addFruit = body.get("addFruit");
     fruits = [...fruits, addFruit as string];
   } else if (_action === "delete") {
-    await fakeDelay(1000);
+    await fakeDelay(2000);
     const fruitName = body.get("fruitName");
     const index = fruits.findIndex((fruit) => fruit === fruitName);
     if (index !== -1) {
@@ -50,20 +57,20 @@ export default function Demo() {
 }
 
 export function FruitItem({ index, item }: { index: number; item: string }) {
-  const navigation = useNavigation();
+  const fetcher = useFetcher();
 
   return (
     <li
       key={index}
       style={{
-        opacity: navigation?.formData?.get("fruitName") === item ? 0.25 : 1,
+        opacity: fetcher?.formData?.get("fruitName") === item ? 0.25 : 1,
         backgroundColor:
-          navigation?.formData?.get("fruitName") === item ? "red" : "white",
+          fetcher?.formData?.get("fruitName") === item ? "red" : "white",
       }}
     >
       <div className="grid">
         <p>{item}</p>
-        <Form method="POST">
+        <fetcher.Form method="POST">
           <input type="hidden" name="fruitName" value={item} />
           <button
             type="submit"
@@ -73,7 +80,7 @@ export function FruitItem({ index, item }: { index: number; item: string }) {
           >
             X
           </button>
-        </Form>
+        </fetcher.Form>
       </div>
     </li>
   );
