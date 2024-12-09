@@ -6,6 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 
@@ -71,3 +72,39 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return <Outlet />;
 }
+
+export function ErrorBoundary() {
+  const error = useRouteError() as Error;
+  console.log("error", error);
+  return (
+    <>
+      <div style={errorStyles.container}>
+        <h2 style={errorStyles.title}>{error.message}</h2>
+        <pre style={errorStyles.content}>{error.stack}</pre>
+      </div>
+    </>
+  );
+}
+
+const errorStyles = {
+  container: {
+    padding: "20px",
+    border: "2px solid #ff0000",
+    borderRadius: "5px",
+    backgroundColor: "#ffe6e6",
+    width: "400px",
+    margin: "auto",
+    textAlign: "center",
+    wordWrap: "break-word",
+  },
+  title: {
+    color: "#ff0000",
+    fontSize: "24px",
+    marginBottom: "10px",
+  },
+  content: {
+    color: "#555",
+    fontSize: "14px",
+    maxWidth: "100%",
+  },
+};

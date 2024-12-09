@@ -52,6 +52,10 @@ export default function Demo() {
           </button>
         </Form>
       </section>
+      <section>
+        <h1>Error Test</h1>
+        <button onClick={handleClick}>Click Me</button>
+      </section>
     </>
   );
 }
