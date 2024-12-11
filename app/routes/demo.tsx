@@ -27,6 +27,11 @@ export async function action({ request }: { request: Request }) {
     if (index !== -1) {
       fruits.splice(index, 1);
     }
+  } else {
+    throw new Response("Invalid action", {
+      status: 400,
+      statusText: "Bad Request",
+    });
   }
 
   return json({ success: true });
@@ -54,7 +59,11 @@ export default function Demo() {
       </section>
       <section>
         <h1>Error Test</h1>
-        <button onClick={handleClick}>Click Me</button>
+        {/* <button onClick={handleClick}>Click Me</button> */}
+        <Form method="POST">
+          <input name="name" type="text" />
+          <button type="submit">Submit</button>
+        </Form>
       </section>
     </>
   );

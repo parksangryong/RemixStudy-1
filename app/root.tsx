@@ -1,4 +1,5 @@
 import {
+  isRouteErrorResponse,
   // Form,
   json,
   Links,
@@ -75,15 +76,24 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError() as Error;
-  console.log("error", error);
-  return (
-    <>
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div style={errorStyles.container}>
+        <h1 style={errorStyles.title}>
+          {error.status} {error.statusText}
+        </h1>
+        <p style={errorStyles.content}>{error.data}</p>
+      </div>
+    );
+  } else {
+    return (
       <div style={errorStyles.container}>
         <h2 style={errorStyles.title}>{error.message}</h2>
         <pre style={errorStyles.content}>{error.stack}</pre>
       </div>
-    </>
-  );
+    );
+  }
 }
 
 const errorStyles = {
@@ -107,4 +117,4 @@ const errorStyles = {
     fontSize: "14px",
     maxWidth: "100%",
   },
-};
+} as const;
