@@ -20,6 +20,10 @@ import commentsData from "../../commentData.json";
 // utils
 import { fakeDelay, formatDate } from "~/utils/helper";
 
+interface PostsData {
+  result: Array<PostProps>;
+}
+
 interface PostProps {
   id: number;
   userId: number;
@@ -28,6 +32,7 @@ interface PostProps {
   createdAt: string;
   content: string;
   slug: string;
+  comments: CommentProps[];
 }
 
 interface CommentProps {
@@ -48,10 +53,7 @@ type ActionData = {
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const { slug } = params;
-  const currentPostComments = commentsData.filter(
-    (item) => item.postSlug === slug
-  );
-  return json({ slug, postComments: currentPostComments });
+  return json({ slug });
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -92,21 +94,20 @@ export async function action({ request }: ActionFunctionArgs) {
     console.log("unexpected error:", error);
     return json({ success: false });
   }
-
-  // return json({ success: true });
-  // return redirect("/posts");
 }
 
 export default function SinglePost() {
-  const { slug, postComments } = useLoaderData<typeof loader>();
+  const { slug } = useLoaderData<typeof loader>();
   const matches = useMatches();
-  const posts = matches[1].data as PostProps[];
-  const post = posts.find((post) => post.slug === slug);
+  const postsData = matches.find((match) => match.id === "routes/posts")
+    ?.data as PostsData;
+  const post = postsData?.result.find((post) => post.slug === slug);
+  console.log("post", post);
+
+  const postComments = post?.comments || [];
 
   const actionData = useActionData<ActionData>();
-
   const navigation = useNavigation();
-
   const [comments, setComments] = useState<CommentProps[]>(postComments);
 
   useEffect(() => {

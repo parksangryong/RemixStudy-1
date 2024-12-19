@@ -1,8 +1,8 @@
-import { Link, Outlet } from "@remix-run/react";
+import { json, Link, Outlet } from "@remix-run/react";
 
 // data
-import postData from "../../postData.json";
-
+// import postData from "../../postData.json";
+import { getAllPosts } from "~/db/query";
 export const meta = () => {
   return [
     { title: "Posts page" },
@@ -11,7 +11,8 @@ export const meta = () => {
 };
 
 export async function loader() {
-  return postData;
+  const result = await getAllPosts();
+  return json({ result });
 }
 
 export default function Posts() {
