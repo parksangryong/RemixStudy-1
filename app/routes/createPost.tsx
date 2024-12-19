@@ -1,17 +1,12 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { Form, redirect, useActionData, useNavigation } from "@remix-run/react";
 
-// data
-import data from "../../postData.json";
-
-// fs
-import fs from "fs";
-
 // utils
-import { countWords, fakeDelay, formatDate } from "~/utils/helper";
+import { countWords, fakeDelay } from "~/utils/helper";
 
 // components
 import Spinner from "~/components/helper/spinner";
+import { createPost } from "~/db/query";
 
 type ActionData = {
   errors?: {
@@ -60,25 +55,14 @@ export async function action({ request }: ActionFunctionArgs) {
     return json({ errors }, { status: 400 });
   }
 
-  const author = "John Doe";
-  const createdAt = formatDate();
-  const id = 6;
-
-  const newPost = {
-    id,
-    userId: parseInt(userId as string),
-    author,
-    title,
-    createdAt,
-    content,
-    slug,
-  };
-  const newPosts = [...data, newPost];
-
   try {
-    const filePath =
-      "/Users/parksangryong/Desktop/Study/remix/my-remix-app-3/postData.json";
-    fs.writeFileSync(filePath, JSON.stringify(newPosts, null, 2));
+    const result = await createPost({
+      userId: parseInt(userId as string),
+      slug: slug as string,
+      title: title as string,
+      content: content as string,
+    });
+    console.log("result", result);
   } catch (error) {
     console.log("unexpected error:", error);
   }

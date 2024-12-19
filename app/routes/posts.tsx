@@ -12,7 +12,7 @@ export const meta = () => {
 
 export async function loader() {
   const result = await getAllPosts();
-  return json({ result });
+  return json(result);
 }
 
 export default function Posts() {

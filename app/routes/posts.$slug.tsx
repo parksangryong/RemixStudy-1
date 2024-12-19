@@ -11,18 +11,9 @@ import {
 import Comments from "~/components/Comments";
 import Post from "~/components/Post";
 
-// fs
-import fs from "fs";
-
-// data
-import commentsData from "../../commentData.json";
-
 // utils
 import { fakeDelay, formatDate } from "~/utils/helper";
-
-interface PostsData {
-  result: Array<PostProps>;
-}
+import { createComment } from "~/db/query";
 
 interface PostProps {
   id: number;
@@ -74,22 +65,18 @@ export async function action({ request }: ActionFunctionArgs) {
     return json({ errors }, { status: 400 });
   }
 
-  const newComment = {
-    id: Date.now(),
-    userId: 1,
-    postId: parseInt(postId as string),
-    postSlug: postSlug,
-    body: commentBody,
-    createdAt: formatDate(),
-  };
-
-  const newPosts = [...commentsData, newComment];
-
   try {
-    const filePath =
-      "/Users/parksangryong/Desktop/Study/remix/my-remix-app-3/commentData.json";
-    fs.writeFileSync(filePath, JSON.stringify(newPosts, null, 2));
-    return json({ success: true });
+    const result = await createComment({
+      userId: 1,
+      postId: parseInt(postId as string),
+      postSlug: postSlug as string,
+      body: commentBody as string,
+    });
+    if (result.error) {
+      return json({ success: false });
+    } else {
+      return json({ success: true });
+    }
   } catch (error) {
     console.log("unexpected error:", error);
     return json({ success: false });
@@ -100,9 +87,8 @@ export default function SinglePost() {
   const { slug } = useLoaderData<typeof loader>();
   const matches = useMatches();
   const postsData = matches.find((match) => match.id === "routes/posts")
-    ?.data as PostsData;
-  const post = postsData?.result.find((post) => post.slug === slug);
-  console.log("post", post);
+    ?.data as PostProps[];
+  const post = postsData?.find((post) => post.slug === slug);
 
   const postComments = post?.comments || [];
 

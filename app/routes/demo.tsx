@@ -1,11 +1,9 @@
 import { json } from "@remix-run/node";
-import { getAllPosts } from "~/db/query";
+import { getCommentByPostSlug } from "~/db/query";
 
 export async function loader() {
-  const result = await getAllPosts();
-  console.log("result", result[0]);
-  console.log("resultUser", result[0].user);
-  console.log("resultComments", result[0].comments);
+  const result = await getCommentByPostSlug("hello-world-1");
+  console.log("result", result);
   return json({ success: true });
 }
 
