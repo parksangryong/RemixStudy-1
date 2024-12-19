@@ -9,6 +9,12 @@ type createPostType = {
   content: string;
 };
 
+type updatePostType = {
+  id: number;
+  title: string;
+  content: string;
+};
+
 type createCommentType = {
   userId: number;
   postId: number;
@@ -68,10 +74,34 @@ export async function createComment(params: createCommentType) {
     const newComment = await prisma.comment.create({
       data: params,
     });
-    console.log("newComment", newComment);
-    return { error: false };
+    return { error: false, newComment };
   } catch (error) {
     console.log("unexpected error", error);
     return { error: true, errorMessage: error };
+  }
+}
+
+export async function getPostById(id: number) {
+  try {
+    const post = await prisma.post.findUnique({ where: { id } });
+    return { error: false, post };
+  } catch (error) {
+    console.log("unexpected error", error);
+    return { error: true, errorMessage: error };
+  }
+}
+
+export async function updatePost(params: updatePostType) {
+  try {
+    return await prisma.post.update({
+      where: { id: params.id },
+      data: {
+        title: params.title,
+        content: params.content,
+      },
+    });
+  } catch (error) {
+    console.log("unexpected error", error);
+    return [];
   }
 }

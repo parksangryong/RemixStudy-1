@@ -5,7 +5,7 @@ import { Form, redirect, useActionData, useNavigation } from "@remix-run/react";
 import { countWords, fakeDelay } from "~/utils/helper";
 
 // components
-import Spinner from "~/components/helper/spinner";
+import Spinner from "~/components/helper/Spinner";
 import { createPost } from "~/db/query";
 
 type ActionData = {
