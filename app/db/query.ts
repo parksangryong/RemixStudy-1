@@ -128,3 +128,37 @@ export async function deletePost(postId: number) {
     return { error: true, errorMessage: error };
   }
 }
+
+export async function createUser(
+  email: string,
+  password: string,
+  name: string
+) {
+  try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (existingUser) {
+      return {
+        error: true,
+        errorMessage: "User with same email exists. Please login.",
+      };
+    } else {
+      const newUser = await prisma.user.create({
+        data: {
+          email,
+          password,
+          name,
+        },
+      });
+      console.log(newUser);
+
+      return { error: false, errorMessage: "" };
+    }
+  } catch (error: unknown | Error) {
+    console.log(`Unexpected error ${error}`);
+    return { error: true, errorMessage: `Unexpected error` };
+  }
+}

@@ -1,0 +1,71 @@
+import { ActionFunctionArgs } from "@remix-run/node";
+import { Form, json, redirect } from "@remix-run/react";
+import { useState } from "react";
+import { createUser } from "~/db/query";
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const body = await request.formData();
+  const _action = body.get("_action");
+
+  if (_action === "signup") {
+    const name = body.get("name");
+    const email = body.get("email");
+    const password = body.get("password");
+
+    await createUser(name as string, email as string, password as string);
+    return redirect("/");
+  } else {
+    return json({ success: true });
+  }
+};
+
+export default function Login() {
+  const [isSignUp, setIsSignUp] = useState(false);
+
+  const toggleSignUp = () => {
+    setIsSignUp(!isSignUp);
+  };
+
+  return (
+    <>
+      <section>
+        <div>
+          <h2>{isSignUp ? "Sign Up" : "Login"}</h2>
+          <Form method="post">
+            {isSignUp && (
+              <div>
+                <label htmlFor="name">Name: </label>
+                <input type="text" name="name" id="name" />
+              </div>
+            )}
+            <div>
+              <label htmlFor="email">Email: </label>
+              <input type="text" name="email" id="email" />
+            </div>
+            <div>
+              <label htmlFor="password">Password: </label>
+              <input type="password" name="password" id="password" />
+            </div>
+            <button
+              type="submit"
+              name="_action"
+              value={isSignUp ? "signup" : "login"}
+            >
+              {isSignUp ? "Sign Up" : "Login"}
+            </button>
+            <p>
+              {isSignUp ? "Already an member?" : "Not a member?"}
+              <button
+                type="button"
+                className="inline-text-button"
+                onClick={toggleSignUp}
+              >
+                {isSignUp ? "Login" : "Sign Up"}
+              </button>
+            </p>
+          </Form>
+        </div>
+      </section>
+    </>
+  );
+}

@@ -1,6 +1,8 @@
-import { NavLink } from "@remix-run/react";
-
+import { NavLink, useLocation } from "@remix-run/react";
+import { useEffect, useState } from "react";
 export default function Navbar() {
+  const location = useLocation();
+  console.log(location);
   const style = ({
     isActive,
     isPending,
@@ -12,30 +14,46 @@ export default function Navbar() {
     color: isActive ? "red" : "black",
   });
 
+  const [isHideNavbar, setIsHideNavbar] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname.includes("/login")) {
+      setIsHideNavbar(true);
+    } else {
+      setIsHideNavbar(false);
+    }
+  }, [location.pathname]);
+  //
   return (
-    <nav>
-      <ul>
-        <li>
-          <NavLink to="/" style={style}>
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/posts" style={style}>
-            Posts
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/about" style={style}>
-            About
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/demo" style={style}>
-            Demo
-          </NavLink>
-        </li>
-      </ul>
-    </nav>
+    <>
+      {isHideNavbar ? (
+        <></>
+      ) : (
+        <nav>
+          <ul>
+            <li>
+              <NavLink to="/" style={style}>
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/posts" style={style}>
+                Posts
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/about" style={style}>
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/demo" style={style}>
+                Demo
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+      )}
+    </>
   );
 }

@@ -105,7 +105,7 @@ export default function CreatePost() {
           {actionData?.errors?.content && (
             <em style={{ color: "red" }}>{actionData?.errors?.content}</em>
           )}
-          <input type="text" name="content" />
+          <input type="text" name="content" lang="ko" />
         </section>
         <section>
           <button
