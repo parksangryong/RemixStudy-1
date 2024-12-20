@@ -105,3 +105,26 @@ export async function updatePost(params: updatePostType) {
     return [];
   }
 }
+
+export async function getMyPosts(userId: number) {
+  try {
+    const posts = await prisma.post.findMany({ where: { userId } });
+    return { error: false, posts };
+  } catch (error) {
+    console.log("unexpected error", error);
+    return { error: true, errorMessage: error };
+  }
+}
+
+export async function deletePost(postId: number) {
+  try {
+    const deleteComments = await prisma.comment.deleteMany({
+      where: { postId },
+    });
+    const deletePost = await prisma.post.delete({ where: { id: postId } });
+    return { error: false, deletePost, deleteComments };
+  } catch (error) {
+    console.log("unexpected error", error);
+    return { error: true, errorMessage: error };
+  }
+}
