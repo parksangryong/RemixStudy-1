@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from "@remix-run/react";
 import { useEffect, useState } from "react";
-export default function Navbar() {
+
+export default function Navbar({ isLoggedIn }: { isLoggedIn: boolean }) {
   const location = useLocation();
   console.log(location);
   const style = ({
@@ -49,6 +50,14 @@ export default function Navbar() {
             <li>
               <NavLink to="/demo" style={style}>
                 Demo
+              </NavLink>
+            </li>
+            <li style={{ display: isLoggedIn ? "block" : "none" }}>
+              <NavLink
+                to="/logout"
+                style={{ color: "blue", textDecoration: "underline" }}
+              >
+                Logout
               </NavLink>
             </li>
           </ul>

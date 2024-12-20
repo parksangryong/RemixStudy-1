@@ -7,9 +7,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 
 // styles
 import styles from "./style.css?url";
@@ -20,6 +21,7 @@ import picoCSS from "./pico.css?url";
 //components
 import Brand from "./components/Brand";
 import Navbar from "./components/Navbar";
+import { getSession } from "./session";
 
 export const links: LinksFunction = () => [
   // { rel: "stylesheet", href: bootstrap },
@@ -28,17 +30,17 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
-export const loader = () => {
-  console.log("root route loader called");
-  return json({ success: true });
-};
-
-export const action = () => {
-  console.log("root route action called");
-  return json({ success: true });
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (session.has("userId")) {
+    return json({ isLoggedIn: true });
+  }
+  return json({ isLoggedIn: false });
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { isLoggedIn } = useLoaderData<typeof loader>();
+
   return (
     <html lang="en">
       <head>
@@ -49,7 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <header>
-          <Navbar />
+          <Navbar isLoggedIn={isLoggedIn} />
           <Brand />
         </header>
         <main className="container">{children}</main>
