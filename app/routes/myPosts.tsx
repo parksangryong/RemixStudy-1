@@ -1,6 +1,5 @@
 import { ActionFunctionArgs } from "@remix-run/node";
 import { json, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
-import { useEffect, useState } from "react";
 import { deletePost, getMyPosts } from "~/db/query";
 
 export async function loader() {
@@ -35,14 +34,6 @@ export default function MyPosts() {
     fetcher.submit({ deleteId: id }, { method: "post" });
   };
 
-  const [errorMsg, setErrorMsg] = useState("");
-
-  useEffect(() => {
-    if (fetcher.data?.error) {
-      setErrorMsg(fetcher.data.errorMessage);
-    }
-  }, [fetcher.data]);
-
   return (
     <>
       <table>
@@ -72,7 +63,6 @@ export default function MyPosts() {
             ))}
         </tbody>
       </table>
-      {errorMsg && <div>{errorMsg}</div>}
     </>
   );
 }
