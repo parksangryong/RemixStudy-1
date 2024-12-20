@@ -1,8 +1,10 @@
-import { json, Link, Outlet } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { json, Link, Outlet, redirect } from "@remix-run/react";
 
 // data
 // import postData from "../../postData.json";
 import { getAllPosts } from "~/db/query";
+import { getSession } from "~/session";
 export const meta = () => {
   return [
     { title: "Posts page" },
@@ -10,9 +12,15 @@ export const meta = () => {
   ];
 };
 
-export async function loader() {
-  const result = await getAllPosts();
-  return json(result);
+export async function loader({ request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  if (!session.has("userId")) {
+    return redirect("/login");
+  }
+
+  const posts = await getAllPosts();
+  return json(posts);
 }
 
 export default function Posts() {

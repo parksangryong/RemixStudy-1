@@ -1,8 +1,20 @@
-import { ActionFunctionArgs } from "@remix-run/node";
-import { json, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import {
+  json,
+  redirect,
+  useFetcher,
+  useLoaderData,
+  useNavigate,
+} from "@remix-run/react";
 import { deletePost, getMyPosts } from "~/db/query";
+import { getSession } from "~/session";
 
-export async function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("userId")) {
+    return redirect("/login");
+  }
+
   const userId = 1;
   const result = await getMyPosts(userId);
 

@@ -2,6 +2,7 @@ import { ActionFunctionArgs } from "@remix-run/node";
 import { Form, json, redirect } from "@remix-run/react";
 import { useState } from "react";
 import { createUser, loginUser } from "~/db/query";
+import { commitSession, getSession } from "~/session";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const body = await request.formData();
@@ -20,7 +21,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (result.error) {
       return json({ success: false, errorMessage: result.errorMessage });
     } else {
-      return redirect("/posts");
+      const session = await getSession(request.headers.get("Cookie"));
+      session.set("userId", result?.newUser?.id.toString() ?? "");
+      session.set("userName", result?.newUser?.name ?? "");
+
+      return redirect("/posts", {
+        headers: {
+          "Set-Cookie": await commitSession(session),
+        },
+      });
     }
   } else if (_action === "login") {
     const email = body.get("email");
@@ -30,7 +39,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (result.error) {
       return json({ success: false, errorMessage: result.errorMessage });
     } else {
-      return redirect("/posts");
+      const session = await getSession(request.headers.get("Cookie"));
+      session.set("userId", result.user?.id.toString() ?? "");
+      session.set("userName", result.user?.name ?? "");
+
+      return redirect("/posts", {
+        headers: {
+          "Set-Cookie": await commitSession(session),
+        },
+      });
     }
   } else {
     return json({ success: false });

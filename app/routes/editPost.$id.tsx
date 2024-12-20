@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import Spinner from "~/components/helper/Spinner";
 import { getPostById, updatePost } from "~/db/query";
+import { getSession } from "~/session";
 
 type Post = {
   userId: number;
@@ -17,7 +18,12 @@ type Post = {
   content: string;
 };
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("userId")) {
+    return redirect("/login");
+  }
+
   const postId = params.id;
   const result = await getPostById(Number(postId));
 

@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, json } from "@remix-run/node";
+import { ActionFunctionArgs, json, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, redirect, useActionData, useNavigation } from "@remix-run/react";
 
 // utils
@@ -7,6 +7,7 @@ import { countWords, fakeDelay } from "~/utils/helper";
 // components
 import Spinner from "~/components/helper/Spinner";
 import { createPost } from "~/db/query";
+import { getSession } from "~/session";
 
 type ActionData = {
   errors?: {
@@ -17,6 +18,14 @@ type ActionData = {
   };
   success?: boolean;
 };
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("userId")) {
+    return redirect("/login");
+  }
+  return null;
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   await fakeDelay(3000);

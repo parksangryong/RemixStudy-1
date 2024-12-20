@@ -153,9 +153,8 @@ export async function createUser(
           name,
         },
       });
-      console.log(newUser);
 
-      return { error: false, errorMessage: "" };
+      return { error: false, newUser };
     }
   } catch (error: unknown | Error) {
     console.log(`Unexpected error ${error}`);
