@@ -1,7 +1,7 @@
 import { ActionFunctionArgs } from "@remix-run/node";
 import { Form, json, redirect } from "@remix-run/react";
 import { useState } from "react";
-import { createUser } from "~/db/query";
+import { createUser, loginUser } from "~/db/query";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const body = await request.formData();
@@ -12,10 +12,28 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const email = body.get("email");
     const password = body.get("password");
 
-    await createUser(name as string, email as string, password as string);
-    return redirect("/");
+    const result = await createUser(
+      name as string,
+      email as string,
+      password as string
+    );
+    if (result.error) {
+      return json({ success: false, errorMessage: result.errorMessage });
+    } else {
+      return redirect("/posts");
+    }
+  } else if (_action === "login") {
+    const email = body.get("email");
+    const password = body.get("password");
+
+    const result = await loginUser(email as string, password as string);
+    if (result.error) {
+      return json({ success: false, errorMessage: result.errorMessage });
+    } else {
+      return redirect("/posts");
+    }
   } else {
-    return json({ success: true });
+    return json({ success: false });
   }
 };
 

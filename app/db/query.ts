@@ -162,3 +162,20 @@ export async function createUser(
     return { error: true, errorMessage: `Unexpected error` };
   }
 }
+
+export async function loginUser(email: string, password: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email, password },
+    });
+
+    if (user) {
+      return { error: false, user };
+    } else {
+      return { error: true, errorMessage: "User not found" };
+    }
+  } catch (error) {
+    console.log("unexpected error", error);
+    return { error: true, errorMessage: error };
+  }
+}
