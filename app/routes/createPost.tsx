@@ -24,7 +24,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (!session.has("userId")) {
     return redirect("/login");
   }
-  return null;
+  return { success: true };
 }
 
 export async function action({ request }: ActionFunctionArgs) {
