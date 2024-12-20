@@ -1,4 +1,4 @@
-import { useNavigate } from "@remix-run/react";
+import { json, useLoaderData } from "@remix-run/react";
 
 export const meta = () => {
   return [
@@ -7,23 +7,43 @@ export const meta = () => {
   ];
 };
 
-export default function Index() {
-  const navigate = useNavigate();
+export async function loader() {
+  const images = await fetch("https://cataas.com/api/cats?json=true&limit=12", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-  const handleClick = () => {
-    //navigate("/posts")
-    navigate({
-      pathname: "/posts",
-      search: "?query=string",
-      hash: "#hash",
-    });
-  };
+  return json({ images: await images.json() });
+}
+
+export default function Index() {
+  const images = useLoaderData<typeof loader>();
 
   return (
-    <div className="btn">
-      <button type="button" onClick={handleClick}>
-        Submit
-      </button>
+    <div
+      className="imageBox"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+      }}
+    >
+      {images.images.map((image: { _id: string }, index: number) => (
+        <img
+          key={index}
+          style={{
+            width: "200px",
+            height: "200px",
+            border: "5px solid #444",
+            margin: "10px",
+            objectFit: "cover",
+          }}
+          src={`https://cataas.com/cat/${image._id}`}
+          alt="cat"
+        />
+      ))}
     </div>
   );
 }
